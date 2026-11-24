@@ -27,16 +27,6 @@ from a disc is ever committed (see [docs/LEGAL.md](docs/LEGAL.md)).
 
 
 
-| Port | Repository | State |
-| :--- | :--- | :--- |
-| Crazy Taxi (USA, MK-51035) | `crazytaxi-recomp` | Plays: intro, menus, arcade and original modes with correct 3D graphics, music, sound effects, and voice samples, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
-| Jet Grind Radio (USA, MK-51058) | `jetgrindradio-recomp` | Plays: intro FMV (with YUV422 macroblock stride fix), Shibuya-cho garage hub, tutorial, and street stages with cel-shaded 3D graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
-| The Typing of the Dead (USA, T13004N) | `typingofthedead-recomp` | Plays: intro, menus, arcade, original, and drill modes with correct 3D graphics, music, sound effects, and voice samples, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Native Dreamcast Maple Keyboard (`0x00000040`) peripheral emulation mapped from host keyboard. Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-2, texture packs, file mods. |
-| Gauntlet Legends (USA, T9706N) | `gauntletlegends-recomp` | Plays: intro, character select, tower hub, and 3D dungeon stages with correct graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
-| Star Wars Episode I: Racer (USA, T23001N) | `starwarsepisodeirace-recomp` | In progress: boots through LucasArts and CRI Sofdec splash screens; Area 7 (`0xBC000000`) RAM/G2 DMA alias and `[functions] interpret` support added. Intro FMV and stereo audio verified under interpreter; isolating remaining native function for full-speed menu and podracing transition. |
-| Sonic Adventure (USA, MK-51000) | `sonicadventure-recomp` | In progress: boots and renders initial screens; isolating menu-to-gameplay transition and relocation/interpreter overrides. |
-| Phantasy Star Online Ver. 2 (USA, MK-51193) | `phantasystaronlinev2-recomp` | In progress: scaffolded and translated (`1ST_READ.BIN`); pending initial boot verification and offline/network stubbing. |
-| MTV Sports: Skateboarding Featuring Andy Macdonald (USA, T8118N) | `mtvsportsskateboarding-recomp` | In progress: scaffolded and translated (`1ST_READ.BIN`); pending initial boot verification and playtest. |
 
 
 
