@@ -263,7 +263,11 @@ void Core::yuv_macroblock() {
     const std::uint32_t mbs_x = (ctrl & 0x3Fu) + 1;  // texture width in macroblocks
     const std::uint32_t mbs_y = ((ctrl >> 8) & 0x3Fu) + 1;
     const std::uint32_t base = regs_[kTaYuvTexBase >> 2] & 0x00FFFFF8u;
-    const std::uint32_t pitch = mbs_x * 16 * 2;  // bytes per output row
+    const bool multi_tex = ((ctrl >> 16) & 1u) != 0;
+    std::uint32_t tex_w = 8;
+    while (tex_w < mbs_x * 16)
+        tex_w <<= 1;
+    const std::uint32_t pitch = tex_w * 2;  // bytes per power-of-two PVR texture row
     const std::uint32_t mbx = yuv_index_ % mbs_x;
     const std::uint32_t mby = (yuv_index_ / mbs_x) % mbs_y;
 
@@ -282,7 +286,9 @@ void Core::yuv_macroblock() {
             const std::uint32_t word = static_cast<std::uint32_t>(u[c]) | (luma(x, row) << 8) |
                                        (static_cast<std::uint32_t>(v[c]) << 16) |
                                        (luma(x + 1, row) << 24);
-            const std::uint32_t off = base + (mby * 16 + row) * pitch + (mbx * 16 + x) * 2;
+            const std::uint32_t off = multi_tex
+                ? (base + yuv_index_ * 512u + row * 32u + x * 2u)
+                : (base + (mby * 16 + row) * pitch + (mbx * 16 + x) * 2);
             memory_.write32(0x04000000u | (off & 0x00FFFFFCu), word);
             ++texture_words;
         }
