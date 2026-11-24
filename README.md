@@ -17,18 +17,14 @@ from a disc is ever committed (see [docs/LEGAL.md](docs/LEGAL.md)).
 |---|---|---|
 | Soulcalibur (USA, T1401N) | `soulcalibur-recomp` | Plays: intro, menus, arcade fights with correct graphics, music and effects, memory-card saves and loads. 4x real time on an Intel Iris Xe at 2x internal resolution (headroom for real-time play). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. 8 minutes of scripted play per seed with no faults. |
 
-Port Compatibility & Status (Port | Repository | State)
 
+| Port | Repository | State |
+| :--- | :--- | :--- |
+| Crazy Taxi (USA, MK-51035) | `crazytaxi-recomp` | Plays: intro, menus, arcade and original modes with correct 3D graphics, music, sound effects, and voice samples, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
+| Jet Grind Radio (USA, MK-51058) | `jetgrindradio-recomp` | Plays: intro FMV (with YUV422 macroblock stride fix), Shibuya-cho garage hub, tutorial, and street stages with cel-shaded 3D graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
+| The Typing of the Dead (USA, T13004N) | `typingofthedead-recomp` | Plays: intro, menus, arcade, original, and drill modes with correct 3D graphics, music, sound effects, and voice samples, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Native Dreamcast Maple Keyboard (`0x00000040`) peripheral emulation mapped from host keyboard. Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-2, texture packs, file mods. |
+| Gauntlet Legends (USA, T9706N) | `gauntletlegends-recomp` | Plays: intro, character select, tower hub, and 3D dungeon stages with correct graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Widescreen 16:9 / 21:9 / 32:9 at full resolution (HUD stretched). Players 1-4 on separate pads, rumble. Texture packs, file mods. |
 
-Port	Repository	State
-Crazy Taxi (USA)	ports/crazytaxi-recomp	Playable (60 FPS) — Full native recompilation with audio, VMU, and Maple controller support
-Jet Grind Radio (USA)	ports/jetgrindradio-recomp	Playable (60 FPS) — Full 3D cel-shaded rendering, audio, VMU, and controller gameplay; PVR YUV stride fix verified
-The Typing of the Dead (USA)	ports/typingofthedead-recomp	Playable (60 FPS) — Full 3D gameplay, audio, and native Dreamcast Maple Keyboard (0x00000040) peripheral support
-Gauntlet Legends (USA)	ports/gauntletlegends-recomp	Playable (60 FPS) — Full 3D gameplay, cooperative thread context switching, and audio
-Star Wars Episode I: Racer (USA)	ports/starwarsepisodeirace-recomp	In Progress — Boots through LucasArts & CRI Sofdec splash screens; Area 7 (0xBC000000) RAM/G2 DMA alias & [functions] interpret support added; isolating remaining native function
-Sonic Adventure (USA)	ports/sonicadventure-recomp	In Progress — Boots; isolating menu/gameplay transition
-Phantasy Star Online Ver. 2 (USA)	ports/phantasystaronlinev2-recomp	In Progress — Scaffolded and translated (1ST_READ.BIN); pending boot & network/offline stubbing
-MTV Sports: Skateboarding Featuring Andy Macdonald (USA)	ports/mtvsportsskateboarding-recomp	In Progress — Scaffolded and translated (1ST_READ.BIN); pending boot & playtest
 
 Platforms: Windows x64 is built and tested (clang-cl, Vulkan, Intel Iris Xe). Linux compiles
 (g++ 15, headless verified); macOS is the engine's own development platform; Android is planned
