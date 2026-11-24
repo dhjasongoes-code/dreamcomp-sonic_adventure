@@ -455,7 +455,9 @@ int translate_view(const dream::translator::GameConfig& cfg, const dream::transl
         const std::string suffix = "_" + (pos == std::string::npos ? stem : stem.substr(pos + 7));
         for (auto& f : fns) f.name += suffix;
     }
-    const auto res = dream::translator::emit_unit(img, fns, opt);
+    auto emit_opt = opt;
+    emit_opt.interpret_functions.insert(cfg.interpret_functions.begin(), cfg.interpret_functions.end());
+    const auto res = dream::translator::emit_unit(img, fns, emit_opt);
     const auto base = out_dir / stem;
     {
         std::ofstream o(base.string() + ".cpp");

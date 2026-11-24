@@ -157,6 +157,14 @@ DcMemory::Target DcMemory::resolve(std::uint32_t a, unsigned size, bool write) {
             t.bytes = ram_.get() + (phys & (kRamSize - 1));
             return t;
         }
+        case 7: {  // 0xBC000000-0xBCFFFFFF (0x1C000000-0x1CFFFFFF) RAM alias used by Star Wars Racer
+            if (phys < 0x1D000000u) {
+                t.kind = Target::kBytes;
+                t.bytes = ram_.get() + (phys & (kRamSize - 1));
+                return t;
+            }
+            break;
+        }
         default:
             break;
     }

@@ -52,6 +52,7 @@
 #include "dream/audio/sink.h"
 #endif
 #ifdef DREAM_WITH_RENDERER
+#include <SDL3/SDL.h>
 #include <thread>
 
 #include "dream/render/background.h"
@@ -2226,7 +2227,17 @@ int main(int argc, char** argv) {
         card_ptr = card.get();
         maple.attach_expansion(0, 0, std::move(card));
     }
-    maple.attach(0, std::move(pad));
+    const char* env_kbd = std::getenv("DREAM_KEYBOARD");
+    const bool kbd_port_a = (env_kbd && env_kbd[0] == '1');
+    auto kbd = std::make_unique<dream::maple::Keyboard>();
+    dream::maple::Keyboard* kbd_ptr = kbd.get();
+    if (kbd_port_a) {
+        maple.attach(0, std::move(kbd));
+        maple.attach(1, std::move(pad));
+    } else {
+        maple.attach(0, std::move(pad));
+        maple.attach(1, std::move(kbd));
+    }
     // dreamcomp: a vibration pack in every attached controller's slot 1, reported to the window
     // as gamepad rumble for that player. `rumble_fn` stays empty headless.
     std::function<void(unsigned, float, unsigned)> rumble_fn;
@@ -2243,7 +2254,7 @@ int main(int argc, char** argv) {
     // player, so a game sees the second controller appear when it is plugged in.
     std::array<dream::maple::Controller*, dream::maple::Bus::kPorts> port_pads{pad_ptr};
     auto sync_ports = [&](unsigned players) {
-        for (unsigned port = 1; port < dream::maple::Bus::kPorts; ++port) {
+        for (unsigned port = 2u; port < dream::maple::Bus::kPorts; ++port) {
             const bool want = port < players;
             if (want == (port_pads[port] != nullptr))
                 continue;
@@ -2514,6 +2525,29 @@ int main(int argc, char** argv) {
                 // open.
                 if (scripted.empty() || pad_ptr->state.buttons == 0xFFFFu)
                     live->read_controls(pad_ptr->state, 0);
+                if (!live->overlay_open() && kbd_ptr) {
+                    int nkeys = 0;
+                    const bool* ks = SDL_GetKeyboardState(&nkeys);
+                    dream::maple::KeyboardState kst{};
+                    if (ks) {
+                        if (SDL_SCANCODE_LCTRL < nkeys && ks[SDL_SCANCODE_LCTRL]) kst.modifiers |= 0x01;
+                        if (SDL_SCANCODE_LSHIFT < nkeys && ks[SDL_SCANCODE_LSHIFT]) kst.modifiers |= 0x02;
+                        if (SDL_SCANCODE_LALT < nkeys && ks[SDL_SCANCODE_LALT]) kst.modifiers |= 0x04;
+                        if (SDL_SCANCODE_LGUI < nkeys && ks[SDL_SCANCODE_LGUI]) kst.modifiers |= 0x08;
+                        if (SDL_SCANCODE_RCTRL < nkeys && ks[SDL_SCANCODE_RCTRL]) kst.modifiers |= 0x10;
+                        if (SDL_SCANCODE_RSHIFT < nkeys && ks[SDL_SCANCODE_RSHIFT]) kst.modifiers |= 0x20;
+                        if (SDL_SCANCODE_RALT < nkeys && ks[SDL_SCANCODE_RALT]) kst.modifiers |= 0x40;
+                        if (SDL_SCANCODE_RGUI < nkeys && ks[SDL_SCANCODE_RGUI]) kst.modifiers |= 0x80;
+                        unsigned slot = 0;
+                        for (int sc = 0x04; sc <= 0x65 && slot < 6; ++sc) {
+                            if (sc == 0x29 || (sc >= 0x3A && sc <= 0x45))
+                                continue;
+                            if (sc < nkeys && ks[sc])
+                                kst.keys[slot++] = static_cast<std::uint8_t>(sc);
+                        }
+                    }
+                    kbd_ptr->state = kst;
+                }
                 sync_ports(live->window.players());
                 for (unsigned port = 1; port < port_pads.size(); ++port)
                     if (port_pads[port])
@@ -2796,8 +2830,11 @@ int main(int argc, char** argv) {
     // DREAM_INTERP_FUNCS=lo:hi,lo:hi,... hides those whole functions, so a set can be shrunk until
     // putting any member back brings a fault return. A range finds the neighbourhood; this finds
     // the function.
-    if (const char* list = std::getenv("DREAM_INTERP_FUNCS")) {
+    {
         std::vector<std::pair<std::uint32_t, std::uint32_t>> fns;
+        for (std::uint32_t addr : cfg.interpret_functions)
+            fns.push_back({addr, addr});
+        if (const char* list = std::getenv("DREAM_INTERP_FUNCS")) {
         for (const char* p = list; *p;) {
             char* end = nullptr;
             const unsigned long lo = std::strtoul(p, &end, 0);
@@ -2809,8 +2846,11 @@ int main(int argc, char** argv) {
             fns.push_back({static_cast<std::uint32_t>(lo), static_cast<std::uint32_t>(hi)});
             p = (*end == ',') ? end + 1 : end;
         }
-        dream::sh4::set_interpret_functions(fns);
-        std::printf("interpreting %zu named functions\n", fns.size());
+        }
+        if (!fns.empty()) {
+            dream::sh4::set_interpret_functions(fns);
+            std::printf("interpreting %zu named functions\n", fns.size());
+        }
     }
 #endif
     // DREAM_WATCH_WRITE=addr[:len]: log every guest store into that range with the last call

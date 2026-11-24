@@ -151,7 +151,8 @@ bool finish(const toml::table& t, const std::filesystem::path& dir, GameConfig& 
         }
     }
     if (!get_u32_list(t["functions"]["extra"], "functions.extra", c.extra_functions, error) ||
-        !get_u32_list(t["functions"]["exclude"], "functions.exclude", c.exclude, error))
+        !get_u32_list(t["functions"]["exclude"], "functions.exclude", c.exclude, error) ||
+        !get_u32_list(t["functions"]["interpret"], "functions.interpret", c.interpret_functions, error))
         return false;
     std::string sym;
     if (!get_str(t["functions"]["symbols"], "functions.symbols", sym, error, false))

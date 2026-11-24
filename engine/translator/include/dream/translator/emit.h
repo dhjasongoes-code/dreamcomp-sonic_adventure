@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cstdint>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -59,6 +60,7 @@ struct EmitOptions {
     // for the default mode, chosen by its wrapper when the guest arrives in that mode (dreamcomp;
     // docs/emitter-design.md "Entry-mode clones"). Off: every such function keeps its runtime tests.
     bool fp_entry_clones = true;
+    std::set<std::uint32_t> interpret_functions;
 };
 
 // A run of bytes inside a function that discovery never decoded. Often a literal pool, sometimes

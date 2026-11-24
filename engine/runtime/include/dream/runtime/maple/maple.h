@@ -45,6 +45,7 @@ enum Function : std::uint32_t {
     kLcd = 0x04000000,
     kClock = 0x08000000,
     kVibration = 0x00010000,
+    kKeyboard = 0x40000000,
 };
 
 // Payload builder for reply frames (words after the header, little-endian bytes).
@@ -111,6 +112,22 @@ class Controller final : public Device {
 public:
     ControllerState state;
     std::uint32_t functions() const noexcept override { return kInput; }
+    Reply handle(std::uint8_t command, const std::uint32_t* args, std::size_t nwords,
+                 Payload& out) override;
+    std::uint64_t condition_reads = 0;
+};
+
+
+struct KeyboardState {
+    std::uint8_t modifiers = 0;
+    std::uint8_t led = 0;
+    std::array<std::uint8_t, 6> keys{};
+};
+
+class Keyboard final : public Device {
+public:
+    KeyboardState state;
+    std::uint32_t functions() const noexcept override { return kKeyboard; }
     Reply handle(std::uint8_t command, const std::uint32_t* args, std::size_t nwords,
                  Payload& out) override;
     std::uint64_t condition_reads = 0;

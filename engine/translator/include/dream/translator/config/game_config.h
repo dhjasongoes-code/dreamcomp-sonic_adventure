@@ -34,7 +34,7 @@ struct GameConfig {
     std::uint32_t load_address = 0, link_address = 0, entry = 0;
 
     std::vector<Relocation> relocations;
-    std::vector<std::uint32_t> extra_functions, exclude;
+    std::vector<std::uint32_t> extra_functions, exclude, interpret_functions;
     std::optional<std::filesystem::path> symbols;  // resolved
     bool pointers = true, sweep = true;
 

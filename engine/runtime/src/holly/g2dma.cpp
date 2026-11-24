@@ -59,7 +59,7 @@ void G2Dma::start(unsigned ch) {
     std::uint32_t src = r[kStar / 4], dst = r[kStag / 4];
     const std::uint32_t len = r[kLen / 4] & 0x7FFFFFFFu;
     // STAR must lie in system RAM (or VRAM); STAG on the G2 bus (area 0 devices) or in RAM.
-    const bool src_ok = ((src >> 26) & 7u) == 3u || ((src >> 26) & 7u) == 1u;
+    const bool src_ok = ((src >> 26) & 7u) == 3u || ((src >> 26) & 7u) == 1u || (((src >> 26) & 7u) == 7u && (src & 0x1FFFFFFFu) < 0x1D000000u);
     const bool dst_ok = ((dst >> 26) & 7u) == 0u || ((dst >> 26) & 7u) == 3u;
     if (!src_ok || !dst_ok || len == 0) {
         ++refused;

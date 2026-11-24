@@ -280,6 +280,52 @@ Reply Controller::handle(std::uint8_t command, const std::uint32_t* args, std::s
     }
 }
 
+
+Reply Keyboard::handle(std::uint8_t command, const std::uint32_t* args, std::size_t nwords,
+                       Payload& out) {
+    switch (command) {
+        case kDeviceRequest:
+        case kAllStatusReq: {
+            out.u32(kKeyboard);
+            out.u32(0x00000102u);  // US 104-key layout
+            out.u32(0);
+            out.u32(0);
+            out.u8(0xFF);  // area code: all regions
+            out.u8(0);     // connector direction
+            out.str("Keyboard", 30);
+            out.str("Produced By or Under License From SEGA ENTERPRISES,LTD.", 60);
+            out.u16(0x01AE);  // standby current
+            out.u16(0x01F4);  // maximum current
+            if (command == kAllStatusReq) {
+                const char* extra = "Version 1.000,1998/09/28,315-6211-AB   ,Keyboard";
+                for (const char* p = extra; *p; ++p) out.u8(static_cast<std::uint8_t>(*p));
+                while (out.bytes().size() % 4) out.u8(0);
+                return kDeviceStatusAll;
+            }
+            return kDeviceStatus;
+        }
+        case kGetCondition: {
+            if (nwords < 1 || args[0] != kKeyboard)
+                return kUnknownFunction;
+            ++condition_reads;
+            out.u32(kKeyboard);
+            out.u8(state.modifiers);
+            out.u8(state.led);
+            for (std::uint8_t k : state.keys) out.u8(k);
+            return kDataTransfer;
+        }
+        case kSetCondition:
+            if (nwords >= 2 && args[0] == kKeyboard)
+                state.led = static_cast<std::uint8_t>(args[1] & 0xFFu);
+            return kDeviceReply;
+        case kDeviceReset:
+        case kDeviceKill:
+            return kDeviceReply;
+        default:
+            return kUnknownCommand;
+    }
+}
+
 // ---- VibrationPack (dreamcomp) -------------------------------------------------------------
 
 Reply VibrationPack::handle(std::uint8_t command, const std::uint32_t* args, std::size_t nwords,
