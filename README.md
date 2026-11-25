@@ -1,4 +1,4 @@
-# dreamcomp
+﻿# dreamcomp
 
 A framework for native PC ports of Sega Dreamcast games, built for AI-assisted development.
 
@@ -23,7 +23,7 @@ from a disc is ever committed (see [docs/LEGAL.md](docs/LEGAL.md)).
 | Star Wars Episode I: Racer (USA, T23001N) | `starwarsepisodeirace-recomp` | In progress: boots through LucasArts and CRI Sofdec splash screens; Area 7 (`0xBC000000`) RAM/G2 DMA alias and `[functions] interpret` support added. Intro FMV and stereo audio verified under interpreter; isolating remaining native function for full-speed menu and podracing transition. |
 | Sonic Adventure (USA, MK-51000) | `sonicadventure-recomp` | In progress: boots and renders initial screens; isolating menu-to-gameplay transition and relocation/interpreter overrides. |
 | Phantasy Star Online Ver. 2 (USA, MK-51193) | `phantasystaronlinev2-recomp` | In progress: scaffolded and translated (`1ST_READ.BIN`); pending initial boot verification and offline/network stubbing. |
-| MTV Sports: Skateboarding Featuring Andy Macdonald (USA, T8118N) | `mtvsportsskateboarding-recomp` | In progress: scaffolded and translated (`1ST_READ.BIN`); pending initial boot verification and playtest. |
+| MTV Sports: Skateboarding Featuring Andy Macdonald (USA, T10004N) | mtvsportsskateboardi-recomp | Plays: intro FMV, menus, skater select, and 3D skateparks with music, sound effects, and VMU support (SH-4 PDTRA 0x0300 composite cable mode). Full 60 FPS real-time play at 4x internal resolution (1707x960). PortInfo widescreen 16:9 / 21:9 / 32:9 with unstretched HudRule anchoring & Esc overlay. Players 1-2, texture packs, file mods. |
 
 
 
