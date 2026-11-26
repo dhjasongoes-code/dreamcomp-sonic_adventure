@@ -1,4 +1,4 @@
-﻿# dreamcomp
+# dreamcomp
 
 A framework for native PC ports of Sega Dreamcast games, built for AI-assisted development.
 
@@ -11,7 +11,7 @@ work. Every game becomes its own repository that holds configuration and origina
 **You supply the game.** Nothing here contains Sega or publisher code or data, and nothing derived
 from a disc is ever committed (see [docs/LEGAL.md](docs/LEGAL.md)).
 
-## Status (2026-11-24)
+## Status (2026-11-25)
 
 | Port | Repository | State |
 |---|---|---|
@@ -20,7 +20,7 @@ from a disc is ever committed (see [docs/LEGAL.md](docs/LEGAL.md)).
 | Jet Grind Radio (USA, MK-51058) | `jetgrindradio-recomp` | Plays: intro FMV (with YUV422 macroblock stride fix), Shibuya-cho garage hub, tutorial, and street stages with cel-shaded 3D graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). PortInfo widescreen 16:9 / 21:9 / 32:9 with unstretched HudRule anchoring & Esc overlay. Players 1-4 on separate pads, rumble. Texture packs, file mods. |
 | The Typing of the Dead (USA, T13004N) | `typingofthedead-recomp` | Plays: intro, menus, arcade, original, and drill modes with correct 3D graphics, music, sound effects, and voice samples, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). Native Dreamcast Maple Keyboard (`0x00000040`) peripheral emulation mapped from host keyboard. PortInfo widescreen 16:9 / 21:9 / 32:9 with unstretched HudRule anchoring & Esc overlay. Players 1-2, texture packs, file mods. |
 | Gauntlet Legends (USA, T9706N) | `gauntletlegends-recomp` | Plays: intro, character select, tower hub, and 3D dungeon stages with correct graphics, music, and sound effects, memory-card saves and loads. Full 60 FPS real-time play at 4x internal resolution (1920x1440). PortInfo widescreen 16:9 / 21:9 / 32:9 with unstretched HudRule anchoring & Esc overlay. Players 1-4 on separate pads, rumble. Texture packs, file mods. |
-| Star Wars Episode I: Racer (USA, T23001N) | `starwarsepisodeirace-recomp` | In progress: boots through LucasArts and CRI Sofdec splash screens; Area 7 (`0xBC000000`) RAM/G2 DMA alias and `[functions] interpret` support added. Intro FMV and stereo audio verified under interpreter; isolating remaining native function for full-speed menu and podracing transition. |
+| Star Wars Episode I: Racer (USA, T23001N) | `starwarsepisodeirace-recomp` | In progress (preservation build, unmodified `1ST_READ.BIN`): 5,375 functions translated (`0` untranslated targets, `0` unmapped accesses; `extra = [0x0C0D30A2, 0x0C0D30AC, 0x0C0EB39A, 0x0C0F7364]`). Renders all 293 startup/splash frames (Sega, LucasArts, CRI MPEG/Sofdec) at 60 FPS (`1920x1440` DXGI/Vulkan + SDL3 audio) and passes `--replay` across 2.17M+ calls with `0` CPU disagreements. Intro FMV (`INTRO.SFD`, `640x480` YUV + AICA audio) plays under `--interpret`; isolating native CRI Sofdec (`mwPly`) / `criFs` GD-ROM streaming handoff at Frame 655 (sector `3,323`). |
 | Sonic Adventure (USA, MK-51000) | `sonicadventure-recomp` | In progress: boots and renders initial screens; isolating menu-to-gameplay transition and relocation/interpreter overrides. |
 | Phantasy Star Online Ver. 2 (USA, MK-51193) | `phantasystaronlinev2-recomp` | In progress: scaffolded and translated (`1ST_READ.BIN`); pending initial boot verification and offline/network stubbing. |
 | MTV Sports: Skateboarding Featuring Andy Macdonald (USA, T10004N) | mtvsportsskateboardi-recomp | Plays: intro FMV, menus, skater select, and 3D skateparks with music, sound effects, and VMU support (SH-4 PDTRA 0x0300 composite cable mode). Full 60 FPS real-time play at 4x internal resolution (1707x960). PortInfo widescreen 16:9 / 21:9 / 32:9 with unstretched HudRule anchoring & Esc overlay. Players 1-2, texture packs, file mods. |
